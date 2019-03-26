@@ -1,0 +1,74 @@
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               5.6.40-log - MySQL Community Server (GPL)
+-- Server OS:                    Win32
+-- HeidiSQL Version:             10.1.0.5464
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+-- Dumping database structure for codedriver
+CREATE DATABASE IF NOT EXISTS `codedriver` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `codedriver`;
+
+-- Dumping structure for table codedriver.problempool
+CREATE TABLE IF NOT EXISTS `problempool` (
+  `ID` varchar(30) NOT NULL,
+  `pblmName` varchar(50) NOT NULL,
+  `question` text NOT NULL,
+  `description` text NOT NULL,
+  `complexity` varchar(50) NOT NULL,
+  `pblmType` varchar(30) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `pblmName` (`pblmName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table codedriver.problempool: ~3 rows (approximately)
+/*!40000 ALTER TABLE `problempool` DISABLE KEYS */;
+INSERT INTO `problempool` (`ID`, `pblmName`, `question`, `description`, `complexity`, `pblmType`) VALUES
+	('birdFreq', 'birdFreq', 'Write a program to find frequency of occurrence', 'testingggggggggggggg', 'MEDIUM', 'SELF'),
+	('pattern01', 'starPatternNormal', 'Write a program to print star pattern ', '    *\n  ***\n*****', 'EASY', 'SELF'),
+	('TP01', 'TestProgram', 'Sum of two numbers', 'Write a program to find the sum of two numbers', 'EASY', 'SELF');
+/*!40000 ALTER TABLE `problempool` ENABLE KEYS */;
+
+-- Dumping structure for table codedriver.testcasepool
+CREATE TABLE IF NOT EXISTS `testcasepool` (
+  `TCID` varchar(30) NOT NULL,
+  `tcName` varchar(50) NOT NULL,
+  `tcCount` int(11) NOT NULL DEFAULT '1',
+  `pblmIDs` varchar(350) NOT NULL,
+  `input1` text NOT NULL,
+  `output1` text NOT NULL,
+  `sample1` bit(1) NOT NULL DEFAULT b'1',
+  `input2` text,
+  `output2` text,
+  `sample2` bit(1) DEFAULT b'0',
+  `input3` text,
+  `output3` text,
+  `sample3` bit(1) DEFAULT b'0',
+  `input4` text,
+  `output4` text,
+  `sample4` bit(1) DEFAULT b'0',
+  `input5` text,
+  `output5` text,
+  `sample5` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`TCID`),
+  UNIQUE KEY `tcName` (`tcName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dumping data for table codedriver.testcasepool: ~3 rows (approximately)
+/*!40000 ALTER TABLE `testcasepool` DISABLE KEYS */;
+INSERT INTO `testcasepool` (`TCID`, `tcName`, `tcCount`, `pblmIDs`, `input1`, `output1`, `sample1`, `input2`, `output2`, `sample2`, `input3`, `output3`, `sample3`, `input4`, `output4`, `sample4`, `input5`, `output5`, `sample5`) VALUES
+	('ARRFREQ01', 'NumFreqInArray', 2, 'birdFreq', '[6,1,2,5,2,4,2]', '["Bird with highest frequency is 2"]', b'1', '[11,1,2,3,4,5,4,3,2,1,3,4]', '["Bird with highest frequency is 3"]', b'0', NULL, NULL, b'0', NULL, NULL, b'0', NULL, NULL, b'0'),
+	('PAT01', 'SimpleStarPattern', 2, 'pattern01', '[3]', '["  *"," ***","*****"]', b'1', '[6]', '["     *","    ***","   *****","  *******"," *********","***********"]', b'0', NULL, NULL, b'0', NULL, NULL, b'0', NULL, NULL, b'0'),
+	('TC01', 'SimpleAdd', 2, 'TP01', '[1,2]', '[3]', b'1', '[3,4]', '[7]', b'0', '', '', b'0', '', '', b'0', '', '', b'0');
+/*!40000 ALTER TABLE `testcasepool` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
