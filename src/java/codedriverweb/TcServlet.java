@@ -65,7 +65,8 @@ public class TcServlet extends HttpServlet {
                 {
                     String name = "tc" + i;
                     
-                    boolean sample = Boolean.parseBoolean(tcResultSet.getString("sample"+i));
+                    boolean sample = tcResultSet.getBoolean("sample"+i);
+                    System.out.println("isSample : " + sample);
                     
                     String isSample = sample?"true":"false";
                     String inputs = tcResultSet.getString("input"+i);
