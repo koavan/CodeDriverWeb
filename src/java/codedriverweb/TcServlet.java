@@ -41,7 +41,7 @@ public class TcServlet extends HttpServlet {
         try
         {  
             Class.forName("com.mysql.jdbc.Driver");  
-            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/codedriver","root","root");  
+            Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/codedriver","root","codingteam");  
   
             Statement stmt=con.createStatement();  
             ResultSet rs=stmt.executeQuery("select * from problempool where pblmName='" + probName + "'");  
@@ -87,7 +87,7 @@ public class TcServlet extends HttpServlet {
         }
         catch(Exception e)
         { 
-            System.out.println(e);
+            e.printStackTrace();
         }  
         
         response.setContentType("text/html;charset=UTF-8");
