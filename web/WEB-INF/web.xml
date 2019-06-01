@@ -4,9 +4,17 @@
         <servlet-name>TcServlet</servlet-name>
         <servlet-class>codedriverweb.TcServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CodeCompiler</servlet-name>
+        <servlet-class>codedriverweb.CodeCompiler</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TcServlet</servlet-name>
         <url-pattern>/TcServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CodeCompiler</servlet-name>
+        <url-pattern>/CodeCompiler</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

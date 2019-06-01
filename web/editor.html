@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Editor - CodeDriver</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style type="text/css" media="screen">
@@ -28,7 +28,7 @@ and open the template in the editor.
         <div class="w3-bar w3-grey" style="display: block;margin: 2px;">
         </div>
         <form>
-            <div class="w3-container w3-card" id="editor" style="height: 100%; min-height: 70vh; width: 49%;display: inline-block;position: relative;margin-left: 1%">public class Test
+            <div class="w3-container w3-card" id="editor" style="height: 100%; min-height: 70vh; width: 49%;display: inline-block;position: relative;margin-left: 1%" onchange="update()">public class Test
 {
     public static void main(String args[])
     {
@@ -44,27 +44,73 @@ C:\Users\IT-VAC>
             </div>
             
             <div class="w3-bar">
-                <div class="w3-bar-item"><div class="w3-btn w3-theme-d5">Compile</div></div>
-                <div class="w3-bar-item"><div class="w3-btn w3-theme-d5">Run</div></div>
+                <div class="w3-bar-item"><div class="w3-btn w3-theme-d5" onclick="print()">Compile</div></div>
+                <div class="w3-bar-item"><div class="w3-btn w3-theme-d5" onclick="sendToServer()">Run</div></div>
                 <div class="w3-bar-item" id="session"></div>
             </div>
         </form>
         
         <script src="./src/ace.js" type="text/javascript" charset="utf-8"></script>
         <script>
+            var res="";
+            var editor;
+            var consol;
+            
             function update()
             {
-                var res = document.getElementById("editor").contentWindow.document;
+                res = editor.getValue().toString();
+//                res += ch;
+            }
+            
+            function print()
+            {
+                res = res.replace("\n"," ");
+                console.log(res);
+            }
+            
+            function sendToServer()
+            {
+                var method = "GET";
+                var url = "http://172.16.3.174:8084/CodeDriverWeb/CodeCompiler";
+                
+                var xhttp = new XMLHttpRequest();
+                var data = `code=` + res;
+                console.log(data);
+                
+                if ("withCredentials" in xhttp) 
+                {
+                    xhttp.open(method, url, true);
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            console.log(this.responseText);
+                        }
+                    };
+                    xhttp.send(data);
+                }
+                else if (XDomainRequest) 
+                {
+                    xhttp = new XDomainRequest();
+                    xhttp.open(method, url);
+                    xhttp.send(data);
+                }
             }
             
             function setEditor()
             {
-                var editor = ace.edit("editor");
+                editor = ace.edit("editor");
                 editor.setTheme("ace/theme/eclipse");
                 editor.session.setMode("ace/mode/java");
-                editor.getSession().on('change',function(){
-                    //update();
+                
+                editor.getSession().on('change',function(event){
+                    console.log(event)
+                    console.log(editor.session.toString());
+//                    if(event.lines[0] !== '\r\n')
+//                        update(event.lines[0]);
+//                    else
+//                        update(" ");
+                    update();
                 });
+                
                 editor.setOption("fontSize",16);
                 editor.setOption("showPrintMargin",false);
                 editor.setOption("showFoldWidgets",true);
@@ -75,7 +121,7 @@ C:\Users\IT-VAC>
         
             function setConsole()
             {
-                var consol = ace.edit("console");
+                consol = ace.edit("console");
                 consol.setTheme("ace/theme/terminal");
                 consol.session.setMode("ace/mode/text");
                 consol.getSession().on('change',function(){
